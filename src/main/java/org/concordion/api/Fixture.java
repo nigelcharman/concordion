@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * An instance of a fixture class.
- * 
+ *
  * @since 2.0.0
  */
 public interface Fixture extends FixtureDeclarations {
@@ -18,19 +18,19 @@ public interface Fixture extends FixtureDeclarations {
     /**
      * @return the class of the fixture instance.
      */
-    Class<?> getFixtureClass(); 
+    Class<?> getFixtureClass();
 
     /**
-     * @return a list of the absolute paths on the class path. 
+     * @return a list of the absolute paths on the class path.
      */
     List<File> getClassPathRoots();
-    
+
     /**
      * @return the fixture class and all of its superclasses, excluding java.lang.Object,
-     * ordered from the most super class to the fixture class. 
+     * ordered from the most super class to the fixture class.
      */
     List<Class<?>> getClassHierarchyParentFirst();
-    
+
     /**
      * @return a description of the specification containing the fixture name.
      */
@@ -58,36 +58,24 @@ public interface Fixture extends FixtureDeclarations {
     void afterSuite();
 
     /**
-     * Save the specification scoped fields and call methods annotated with <code>@BeforeSpecification</code>.  
+     * Save the specification scoped fields and call methods annotated with <code>@BeforeSpecification</code>.
      */
     void beforeSpecification();
 
     /**
-     * Call methods annotated with <code>@AfterSpecification</code> and destroy specification scoped fields.   
+     * Call methods annotated with <code>@AfterSpecification</code> and destroy specification scoped fields.
      */
     void afterSpecification();
 
     /**
-     * Not currently used.
-     * @param exampleName
-     */
-    void beforeProcessExample(String exampleName);
-
-    /**
      * Call methods annotated with <code>@BeforeExample</code>.
-     * @param exampleName the name of the example being invoked  
+     * @param exampleName the name of the example being invoked
      */
     void beforeExample(String exampleName);
-    
+
     /**
-     * Call methods annotated with <code>@AfterExample</code>.   
-     * @param exampleName the name of the example being invoked  
+     * Call methods annotated with <code>@AfterExample</code> and destroy example scoped fields.
+     * @param exampleName the name of the example being invoked
      */
     void afterExample(String exampleName);
-    
-    /**
-     * Destroy example scoped fields.
-     * @param exampleName
-     */
-    void afterProcessExample(String exampleName);
 }

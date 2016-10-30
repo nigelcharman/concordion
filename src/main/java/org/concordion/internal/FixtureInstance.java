@@ -25,22 +25,22 @@ public class FixtureInstance extends FixtureType implements Fixture, FixtureDecl
         this.fixtureObject = fixtureObject;
         scopedFieldStore = new ScopedFieldStore(this);
     }
-    
+
     @Override
     public String toString() {
         return fixtureClass.getName();
     }
-    
+
     @Override
     public Object getFixtureObject() {
         return fixtureObject;
     }
-    
+
     @Override
     public Class<?> getFixtureClass() {
         return fixtureClass;
     }
-    
+
     @Override
     public String getSpecificationDescription() {
         String name = removeSuffix(fixtureClass.getSimpleName());
@@ -60,11 +60,11 @@ public class FixtureInstance extends FixtureType implements Fixture, FixtureDecl
     @Override
     public List<File> getClassPathRoots() {
     	List<File> rootPaths = new ArrayList<File>();
-    	
+
     	Enumeration<URL> resources;
     	try {
     		resources = fixtureClass.getClassLoader().getResources("");
-    	
+
     		while (resources.hasMoreElements()) {
                 rootPaths.add(new File(resources.nextElement().toURI()));
             }
@@ -73,7 +73,7 @@ public class FixtureInstance extends FixtureType implements Fixture, FixtureDecl
     	} catch (URISyntaxException e) {
     		throw new RuntimeException("Unable to get root path", e);
     	}
-    	
+
     	return rootPaths;
     }
 
@@ -81,7 +81,7 @@ public class FixtureInstance extends FixtureType implements Fixture, FixtureDecl
     public void setupForRun(Object fixtureObject) {
         scopedFieldStore.loadValuesIntoFields(fixtureObject, Scope.SPECIFICATION);
     }
-    
+
     @Override
     public void beforeSuite() {
         invokeMethods(BeforeSuite.class);
@@ -105,38 +105,29 @@ public class FixtureInstance extends FixtureType implements Fixture, FixtureDecl
     }
 
     @Override
-    public void beforeProcessExample(String exampleName) {
-        
-    }
-    
-    @Override
     public void beforeExample(final String exampleName) {
         invokeMethods(BeforeExample.class, new SingleParameterSupplier(BeforeExample.class, ExampleName.class, exampleName));
     }
-    
+
     @Override
     public void afterExample(String exampleName) {
         invokeMethods(AfterExample.class, new SingleParameterSupplier(AfterExample.class, ExampleName.class, exampleName));
-    }
-
-    @Override
-    public void afterProcessExample(String exampleName) {
         scopedFieldStore.destroyFields(fixtureObject, Scope.EXAMPLE);
     }
-    
+
     @Override
     public List<Class<?>> getClassHierarchyParentFirst() {
         return super.getClassHierarchyParentFirst();
     }
-    
+
     private void invokeMethods(Class<? extends Annotation> methodAnnotation) {
         invokeMethods(methodAnnotation, null);
     }
-    
+
     private void invokeMethods(Class<? extends Annotation> methodAnnotation, ParameterSupplier parameterSupplier) {
         for (Class<?> clazz : getClassHierarchyParentFirst()) {
             Method[] methods = clazz.getDeclaredMethods();
-            
+
             for (Method method : methods) {
                 if (method.isAnnotationPresent(methodAnnotation)) {
                     try {
@@ -152,7 +143,7 @@ public class FixtureInstance extends FixtureType implements Fixture, FixtureDecl
                                 paramValues[i] = parameterSupplier.getValueForParameter(method, parameters[i], parameterAnnotations[i]);
                             }
                         }
-                        
+
                         method.invoke(fixtureObject, paramValues);
                     } catch (IllegalAccessException e) {
                         throw new AnnotationFormatError("Invalid permissions to invoke method: " + method.getName());
@@ -164,6 +155,6 @@ public class FixtureInstance extends FixtureType implements Fixture, FixtureDecl
                     }
                 }
             }
-        }        
+        }
     }
 }
