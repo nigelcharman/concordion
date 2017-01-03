@@ -1,3 +1,11 @@
+# workaround for buffer overflow issue, ref https://github.com/travis-ci/travis-ci/issues/5227
+addons:
+  hosts:
+    - myshorthost
+  hostname: myshorthost
+  artifacts: # see https://docs.travis-ci.com/user/uploading-artifacts/
+    s3_region: "us-west-2" # defaults to "us-east-1"
+
 language: java
 jdk:
   - openjdk6
