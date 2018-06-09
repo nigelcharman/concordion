@@ -13,8 +13,16 @@ repositories {
     jcenter()
 }
 
+ext {
+    junitPlatformVersion = '1.2.0'
+    junitJupiterVersion = '5.2.0'
+}
+
 dependencies {
-    compile 'junit:junit:4.12',
+    compile "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}",
+//    compile "org.junit.platform:junit-platform-engine:${junitPlatformVersion}"
+//    compile "org.junit.platform:junit-platform-launcher:${junitPlatformVersion}"
+            "org.junit.vintage:junit-vintage-engine:${junitJupiterVersion}",
             'ognl:ognl:3.1',
             'org.pegdown:pegdown:1.6.0'
 
@@ -23,12 +31,14 @@ dependencies {
         exclude group: 'xerces', module: 'xercesImpl'
         exclude group: 'xml-apis', module: 'xml-apis'
     }
-    
+
+    runtime "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+
     testCompile ('org.concordion:concordion-embed-extension:1.1.2') {
         exclude group: 'org.concordion', module: 'concordion'
     }
-	
-	testCompile 'com.github.stefanbirkner:system-rules:1.16.0'
+
+    testCompile 'com.github.stefanbirkner:system-rules:1.16.0'
 }
 
 sourceSets {
