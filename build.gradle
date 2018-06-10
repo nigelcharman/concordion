@@ -58,11 +58,12 @@ sourceSets {
     }
 }
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+sourceCompatibility = 8
+targetCompatibility = 8
 
 test {
     systemProperties['concordion.output.dir'] = "${reporting.baseDir}"
+    useJUnitPlatform()
 }
 
 compileTestJava.dependsOn compileTestDummiesJava

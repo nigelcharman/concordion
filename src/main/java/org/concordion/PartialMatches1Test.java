@@ -1,6 +1,8 @@
 package org.concordion;
 
 import org.concordion.integration.junit4.ConcordionRunner;
+import org.junit.Test;
+import org.junit.platform.commons.annotation.Testable;
 import org.junit.runner.RunWith;
 
 import java.util.HashSet;
@@ -8,7 +10,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-@RunWith(ConcordionRunner.class)
+//@RunWith(ConcordionRunner.class)
+@Testable
 public class PartialMatches1Test {
 
     private Set<String> usernamesInSystem = new HashSet<String>();
