@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         java: [ '8', '11' ]
-    name: Java ${{ matrix.Java }} sample
+    name: Java ${{ matrix.Java }}
 
     steps:
       - uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Unit Test Results (Java ${{ matrix.java }})
-          path: test-results/**/*.xml
+          path: build/test-results/**/*.xml
 
   publish-test-results:
     name: "Publish Unit Tests Results"
