@@ -10,7 +10,7 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  build-and-test:
 
     runs-on: ubuntu-latest
     strategy:
@@ -29,9 +29,27 @@ jobs:
         run: chmod +x gradlew
       - name: Test with Gradle
         run: ./gradlew clean test
+        
+      - name: Upload Unit Test Results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: Unit Test Results (Java ${{ matrix.java }})
+          path: test-results/**/*.xml
 
+  publish-test-results:
+    name: "Publish Unit Tests Results"
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    # the build-and-test job might be skipped, we don't need to run this job then
+    if: success() || failure()
+
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: artifacts
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
-        if: always()
         with:
-          files: build/test-results/**/*.xml
+          files: artifacts/**/*.xml
