@@ -35,7 +35,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Unit Test Results (Java ${{ matrix.java }})
-          path: build/test-results/**/*.xml
+          path: |
+            build/test-results/**/*.xml
+            build/reports/spec/concordion/
 
   publish-test-results:
     name: "Publish Unit Tests Results"
@@ -52,7 +54,7 @@ jobs:
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         with:
-          files: artifacts/**/*.xml
+          files: artifacts/test-results/**/*.xml
           
       - name: Publish Specification
         uses: peaceiris/actions-gh-pages@v3
@@ -60,5 +62,5 @@ jobs:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           external_repository: nigelcharman/concordion-specifications
           publish_branch: main
-          publish_dir: ./build/reports/spec/concordion
+          publish_dir: artifacts/reports/spec/concordion
           destination_dir: concordion
