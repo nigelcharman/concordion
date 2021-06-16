@@ -54,12 +54,11 @@ jobs:
         with:
           files: artifacts/**/*.xml
           
-  publish-spec:
-    name: Publish Specification
-    uses: peaceiris/actions-gh-pages@v3
-    with:
-      deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-      external_repository: nigelcharman/concordion-specifications
-      publish_branch: main
-      publish_dir: ./build/reports/spec/concordion
-      destination_dir: concordion
+      - name: Publish Specification
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: nigelcharman/concordion-specifications
+          publish_branch: main
+          publish_dir: ./build/reports/spec/concordion
+          destination_dir: concordion
